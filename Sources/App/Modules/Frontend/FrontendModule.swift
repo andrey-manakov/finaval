@@ -11,7 +11,7 @@ import ViperKit
 
 final class FrontendModule: ViperModule {
 
-    static var name: String = "example"
+    static var name: String = "frontend"
 
     var router: ViperRouter? { FrontendRouter() }
 

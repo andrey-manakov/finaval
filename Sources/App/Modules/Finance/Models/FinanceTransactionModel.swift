@@ -9,7 +9,7 @@ final class FinanceTransactionModel: ViperModel {
     static let name = "transactions"
 
     struct FieldKeys {
-        static var name: FieldKey { "name" }
+        static var comment: FieldKey { "comment" }
         static var fromAccountId: FieldKey { "from_account_id" }
         static var toAccountId: FieldKey { "to_account_id" }
     }
@@ -17,7 +17,7 @@ final class FinanceTransactionModel: ViperModel {
     // MARK: - fields
 
     @ID() var id: UUID?
-    @Field(key: FieldKeys.name) var name: String
+    @Field(key: FieldKeys.comment) var comment: String
     @Parent(key: FieldKeys.fromAccountId) var fromAccount: FinanceAccountModel
     @Parent(key: FieldKeys.toAccountId) var toAccount: FinanceAccountModel
 
@@ -29,7 +29,7 @@ final class FinanceTransactionModel: ViperModel {
          toAccountId: UUID)
     {
         self.id = id
-        self.name = name
+        self.comment = name
         self.$fromAccount.id = fromAccountId
         self.$toAccount.id = toAccountId
     }

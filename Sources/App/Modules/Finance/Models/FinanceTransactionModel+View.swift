@@ -8,7 +8,7 @@ extension FinanceTransactionModel: ViewContextRepresentable {
 
         init(model: FinanceTransactionModel) {
             self.id = model.id!.uuidString
-            self.name = model.name
+            self.name = model.comment
         }
     }
 
@@ -17,6 +17,6 @@ extension FinanceTransactionModel: ViewContextRepresentable {
 
 extension FinanceTransactionModel: FormFieldOptionRepresentable {
     var formFieldOption: FormFieldOption {
-        .init(key: self.id!.uuidString, label: self.name)
+        .init(key: self.id!.uuidString, label: self.comment)
     }
 }

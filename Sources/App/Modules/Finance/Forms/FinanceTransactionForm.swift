@@ -13,7 +13,7 @@ final class FinanceTransactionEditForm: Form {
     }
 
     var id: String? = nil
-    var name = BasicFormField()
+    var comment = BasicFormField()
     var fromAccountId = SelectionFormField()
     var toAccountId = SelectionFormField()
 
@@ -26,30 +26,30 @@ final class FinanceTransactionEditForm: Form {
             self.id = context.id
         }
 
-        self.name.value = context.name
+        self.comment.value = context.name
         self.fromAccountId.value = context.fromAccountId
         self.toAccountId.value = context.toAccountId
     }
     
     func write(to model: Model) {
-        model.name = self.name.value
+        model.comment = self.comment.value
         model.$fromAccount.id = UUID(uuidString: self.fromAccountId.value)!
         model.$toAccount.id = UUID(uuidString: self.toAccountId.value)!
     }
     
     func read(from model: Model)  {
         self.id = model.id!.uuidString
-        self.name.value = model.name
+        self.comment.value = model.comment
         self.fromAccountId.value = model.$fromAccount.id.uuidString
         self.toAccountId.value = model.$toAccount.id.uuidString
     }
 
     func validate(req: Request) -> EventLoopFuture<Bool> {
         var valid = true
-        if self.name.value.isEmpty {
-            self.name.error = "Name is required"
-            valid = false
-        }
+//        if self.comment.value.isEmpty {
+//            self.comment.error = "Comment is required"
+//            valid = false
+//        }
         
         // FIXME: add validation fro toAccountId
         print("LOG \(self.fromAccountId.value)")

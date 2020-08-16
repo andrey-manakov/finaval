@@ -32,10 +32,10 @@
             </section>
 
             <section>
-                <label for="name">Name <span class="required">(required)</span></label>
-                <input id="name" type="text" name="name" value="#(edit.name.value)" class="field">
-                #if(edit.name.error != nil):
-                <span class="error">#(edit.name.error)</span>
+                <label for="Comment">Comment</label>
+                <input id="comment" type="text" name="comment" value="#(edit.comment.value)" class="field">
+                #if(edit.comment.error != nil):
+                <span class="error">#(edit.comment.error)</span>
                 #endif
             </section>
             

@@ -7,10 +7,29 @@
         <form id="transaction-edit-form" class="wrapper" method="post" action="/transactions/#if(edit.id != nil):#(edit.id)#else:new#endif" enctype="multipart/form-data">
             <input type="hidden" name="id" value="#(edit.id)">
             
+            <section>
+                <label for="fromAccountId">From</label>
+                <select name="fromAccountId">
+                #for(item in edit.fromAccountId.options):
+                    <option #if(item.key == edit.fromAccountId.value): selected="selected" #endif value="#(item.key)">#(item.label)</option>
+                #endfor
+                </select>
+                #if(edit.fromAccountId.error != nil):
+                <span class="error">#(edit.fromAccountId.error)</span>
+                #endif
+            </section>
             
-            
-            
-            
+            <section>
+                <label for="toAccountId">To</label>
+                <select name="toAccountId">
+                #for(item in edit.toAccountId.options):
+                    <option #if(item.key == edit.toAccountId.value): selected="selected" #endif value="#(item.key)">#(item.label)</option>
+                #endfor
+                </select>
+                #if(edit.toAccountId.error != nil):
+                <span class="error">#(edit.toAccountId.error)</span>
+                #endif
+            </section>
 
             <section>
                 <label for="name">Name <span class="required">(required)</span></label>

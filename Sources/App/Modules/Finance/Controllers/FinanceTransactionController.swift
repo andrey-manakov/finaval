@@ -7,6 +7,15 @@ struct FinanceTransactionController: ViperAdminViewController {
     typealias Module = FinanceModule
     typealias EditForm = FinanceTransactionEditForm
     typealias Model = FinanceTransactionModel
+    
+    func beforeRender(req: Request, form: FinanceTransactionEditForm) -> EventLoopFuture<Void> {
+        FinanceAccountModel.query(on: req.db).all()
+        .mapEach(\.formFieldOption)
+        .map {
+            form.fromAccountId.options = $0
+            form.toAccountId.options = $0
+        }
+    }
         
     func afterCreate(req: Request, form: EditForm, model: Model) -> EventLoopFuture<Response> {
         let response = req.redirect(to: "/\(Model.name)/")

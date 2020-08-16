@@ -1,8 +1,7 @@
 #extend("Index"):
     #export("body"):
         <div class="wrapper">
-            <h2>1Transactions</h2>
-            #(list)
+            <h2>Transactions</h2>
             <a href="/transactions/new">Create</a>
         </div>
 
@@ -16,15 +15,15 @@
             <tbody>
             #for(item in list):
                 <tr>
-                    <td>From: #(item.fromAccount.name) To: #(item.toAccount.name)</td>
+                    <td>Id: #(item.transaction.id) From: #(item.fromAccount.name) To: #(item.toAccount.name)</td>
                     <td class="actions">
-                        <a href="/transactions/#(item.id)">Edit</a> &middot;
-                        <a id="#(item.id)" href="#" onClick="confirmDelete('/transactions/', this.id);">Delete</a>
+                        <a href="/transactions/#(item.transaction.id)">Edit</a> &middot;
+                        <a id="#(item.transaction.id)" href="#" onClick="confirmDelete('/transactions/', this.id);">Delete</a>
                     </td>
                 </tr>
             #endfor
             </tbody>
         </table>
-
+#(list)
     #endexport
 #endextend

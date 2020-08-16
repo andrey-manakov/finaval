@@ -12,23 +12,23 @@ import ViperKit
 final class AccountModel: ViperModel {
     typealias Module = AccountModule
 
-    static let name = "examples"
+    static let name = "accounts"
 
     struct FieldKeys {
-        static var example: FieldKey { "example" }
+        static var name: FieldKey { "name" }
     }
 
     // MARK: - fields
 
     @ID() var id: UUID?
-    @Field(key: FieldKeys.example) var example: String
+    @Field(key: FieldKeys.name) var name: String
 
     init() { }
 
     init(id: AccountModel.IDValue? = nil,
-         example: String)
+         name: String)
     {
         self.id = id
-        self.example = example
+        self.name = name
     }
 }

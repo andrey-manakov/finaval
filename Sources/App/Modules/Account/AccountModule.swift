@@ -11,13 +11,14 @@ import ViperKit
 
 final class AccountModule: ViperModule {
 
-    static var name: String = "example"
+    static var name: String = "account"
 
     var router: ViperRouter? { AccountRouter() }
 
     var migrations: [Migration] {
         [
             AccountMigration_v1_0_0(),
+            AccountMigrationSeed(),
         ]
     }
 }

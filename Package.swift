@@ -11,6 +11,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.0.0-rc"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
+        .package(url: "https://github.com/binarybirds/view-kit.git", from: "1.1.0"),
         .package(url: "https://github.com/binarybirds/viper-kit.git", from: "1.3.0"),
 //        .package(url: "https://github.com/realm/SwiftLint.git", from: "0.40.0"),
     ],
@@ -20,8 +21,9 @@ let package = Package(
             dependencies: [
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "ViewKit", package: "view-kit"),
                 .product(name: "ViperKit", package: "viper-kit"),
-                .product(name: "Vapor", package: "vapor")
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

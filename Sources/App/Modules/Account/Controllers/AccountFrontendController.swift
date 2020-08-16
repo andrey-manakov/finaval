@@ -10,7 +10,7 @@ import Fluent
 
 final class AccountFrontendController {
 
-    func exampleView(req: Request) throws -> EventLoopFuture<View> {
+    func accountView(req: Request) throws -> EventLoopFuture<View> {
         struct Context: Encodable {
             let foo: String
         }

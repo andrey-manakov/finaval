@@ -1,29 +1,44 @@
 import Fluent
 import FluentSQLiteDriver
 import Vapor
+import ViewKit
 import ViperKit
 
 // configures your application
 public func configure(_ app: Application) throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
 //    app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
     app.databases.use(.sqlite(), as: .sqlite)
 
-//    app.migrations.add(CreateTodo())
-
     // register routes
-//    try routes(app)
+    try routes(app)
+    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+
+    app.views.use(.leaf)
+    if !app.environment.isRelease {
+        app.leaf.cache.isEnabled = false
+        app.leaf.useViperViews()
+    }
     
     let modules: [ViperModule] = [
-//        UserModule(),
-        FrontendModule(),
-//        AdminModule(),
-//        BlogModule(),
+        AccountModule(),
     ]
 
     try app.viper.use(modules)
     try app.autoMigrate().wait()
 
+}
+
+protocol ViperAdminViewController: AdminViewController where Model: ViperModel  {
+    associatedtype Module: ViperModule
+}
+
+extension `ViperAdminViewController` {
+
+    var listView: String { "\(Module.name.capitalized)/Admin/\(Model.name.capitalized)/List" }
+    var editView: String { "\(Module.name.capitalized)/Admin/\(Model.name.capitalized)/Edit" }
+}
+
+extension Fluent.Model where IDValue == UUID {
+    var viewIdentifier: String { self.id!.uuidString }
 }

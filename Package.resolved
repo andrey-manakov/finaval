@@ -200,6 +200,15 @@
         }
       },
       {
+        "package": "view-kit",
+        "repositoryURL": "https://github.com/binarybirds/view-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "03284ad7d18499ffb8d28451e5fb37d162e578ba",
+          "version": "1.1.4"
+        }
+      },
+      {
         "package": "viper-kit",
         "repositoryURL": "https://github.com/binarybirds/viper-kit.git",
         "state": {

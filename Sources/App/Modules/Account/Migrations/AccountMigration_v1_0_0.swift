@@ -14,8 +14,8 @@ struct AccountMigration_v1_0_0: Migration {
         db.eventLoop.flatten([
             db.schema(AccountModel.schema)
                 .id()
-                .field(AccountModel.FieldKeys.example, .string, .required)
-                .unique(on: AccountModel.FieldKeys.example)
+                .field(AccountModel.FieldKeys.name, .string, .required)
+                .unique(on: AccountModel.FieldKeys.name)
                 .create(),
         ])
     }

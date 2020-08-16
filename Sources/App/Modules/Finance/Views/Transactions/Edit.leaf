@@ -6,6 +6,11 @@
 
         <form id="transaction-edit-form" class="wrapper" method="post" action="/transactions/#if(edit.id != nil):#(edit.id)#else:new#endif" enctype="multipart/form-data">
             <input type="hidden" name="id" value="#(edit.id)">
+            
+            
+            
+            
+            
 
             <section>
                 <label for="name">Name <span class="required">(required)</span></label>

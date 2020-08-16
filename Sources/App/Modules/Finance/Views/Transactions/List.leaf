@@ -2,6 +2,7 @@
     #export("body"):
         <div class="wrapper">
             <h2>1Transactions</h2>
+            #(list)
             <a href="/transactions/new">Create</a>
         </div>
 
@@ -15,7 +16,7 @@
             <tbody>
             #for(item in list):
                 <tr>
-                    <td>#(item.name)</td>
+                    <td>From: #(item.fromAccount.name) To: #(item.toAccount.name)</td>
                     <td class="actions">
                         <a href="/transactions/#(item.id)">Edit</a> &middot;
                         <a id="#(item.id)" href="#" onClick="confirmDelete('/transactions/', this.id);">Delete</a>

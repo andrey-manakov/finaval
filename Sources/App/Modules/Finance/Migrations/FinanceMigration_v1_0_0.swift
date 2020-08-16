@@ -20,6 +20,18 @@ struct FinanceMigration_v1_0_0: Migration {
             db.schema(FinanceTransactionModel.schema)
                 .id()
                 .field(FinanceTransactionModel.FieldKeys.name, .string, .required)
+                .field(FinanceTransactionModel.FieldKeys.fromAccountId, .uuid, .required)
+                .field(FinanceTransactionModel.FieldKeys.toAccountId, .uuid, .required)
+                .foreignKey(FinanceTransactionModel.FieldKeys.fromAccountId,
+                            references: FinanceAccountModel.schema,
+                            .id,
+                            onDelete: .cascade,
+                            onUpdate: .cascade)
+                .foreignKey(FinanceTransactionModel.FieldKeys.toAccountId,
+                            references: FinanceAccountModel.schema,
+                            .id,
+                            onDelete: .cascade,
+                            onUpdate: .cascade)
                 .unique(on: FinanceTransactionModel.FieldKeys.name)
                 .create(),
         ])

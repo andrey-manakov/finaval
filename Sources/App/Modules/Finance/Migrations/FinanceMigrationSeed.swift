@@ -3,9 +3,17 @@ import Vapor
 
 struct FinanceMigrationSeed: Migration {
     
+    private func transactions(_ amount: Int, from: FinanceAccountModel, to: FinanceAccountModel) -> [FinanceTransactionModel] {
+        [
+            .init(name: "test", fromAccountId: from.id!, toAccountId: to.id!),
+        ]
+    }
+    
     func prepare(on db: Database) -> EventLoopFuture<Void> {
-        let accounts = [FinanceAccountModel(name: "cash"), FinanceAccountModel(name: "capital")]
-        return accounts.create(on: db)
+        let cashAccount = FinanceAccountModel(name: "cash")
+        let capitalAccount = FinanceAccountModel(name: "capital")
+        let accounts = [ cashAccount, capitalAccount]
+        return accounts.create(on: db).flatMap { self.transactions(10, from: cashAccount, to: capitalAccount).create(on: db) }
     }
     
     func revert(on db: Database) -> EventLoopFuture<Void> {

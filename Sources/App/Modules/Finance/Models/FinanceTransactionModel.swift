@@ -10,19 +10,27 @@ final class FinanceTransactionModel: ViperModel {
 
     struct FieldKeys {
         static var name: FieldKey { "name" }
+        static var fromAccountId: FieldKey { "from_account_id" }
+        static var toAccountId: FieldKey { "to_account_id" }
     }
 
     // MARK: - fields
 
     @ID() var id: UUID?
     @Field(key: FieldKeys.name) var name: String
+    @Parent(key: FieldKeys.fromAccountId) var fromAccount: FinanceAccountModel
+    @Parent(key: FieldKeys.toAccountId) var toAccount: FinanceAccountModel
 
     init() { }
 
     init(id: FinanceTransactionModel.IDValue? = nil,
-         name: String)
+         name: String,
+         fromAccountId: UUID,
+         toAccountId: UUID)
     {
         self.id = id
         self.name = name
+        self.$fromAccount.id = fromAccountId
+        self.$toAccount.id = toAccountId
     }
 }

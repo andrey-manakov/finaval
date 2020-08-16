@@ -19,6 +19,7 @@ struct FinanceMigration_v1_0_0: Migration {
                 .create(),
             db.schema(FinanceTransactionModel.schema)
                 .id()
+                .field(FinanceTransactionModel.FieldKeys.amount, .int, .required)
                 .field(FinanceTransactionModel.FieldKeys.fromAccountId, .uuid, .required)
                 .field(FinanceTransactionModel.FieldKeys.toAccountId, .uuid, .required)
                 .field(FinanceTransactionModel.FieldKeys.comment, .string)

@@ -5,7 +5,7 @@ struct FinanceMigrationSeed: Migration {
     
     private func transactions(_ amount: Int, from: FinanceAccountModel, to: FinanceAccountModel) -> [FinanceTransactionModel] {
         [
-            .init(name: "test", fromAccountId: from.id!, toAccountId: to.id!),
+            .init(amount: amount, fromAccountId: from.id!, toAccountId: to.id!, comment: "test"),
         ]
     }
     

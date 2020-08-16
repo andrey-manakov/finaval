@@ -4,11 +4,13 @@ extension FinanceTransactionModel: ViewContextRepresentable {
 
     struct ViewContext: Encodable {
         var id: String
-        var name: String
+        var amount: Int
+        var comment: String
 
         init(model: FinanceTransactionModel) {
             self.id = model.id!.uuidString
-            self.name = model.comment
+            self.amount = model.amount
+            self.comment = model.comment
         }
     }
 

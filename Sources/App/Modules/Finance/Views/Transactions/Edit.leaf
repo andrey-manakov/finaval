@@ -8,6 +8,16 @@
             <input type="hidden" name="id" value="#(edit.id)">
             
             <section>
+                <label for="Amount">Amount</label>
+                <input id="amount" type="text" name="amount" value="#(edit.amount.value)" class="field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                #if(edit.amount.error != nil):
+                <span class="error">#(edit.amount.error)</span>
+                #endif
+            </section>
+            
+            <section>
+                <div class="form-group">
+                    
                 <label for="fromAccountId">From</label>
                 <select name="fromAccountId">
                 #for(item in edit.fromAccountId.options):
@@ -17,6 +27,9 @@
                 #if(edit.fromAccountId.error != nil):
                 <span class="error">#(edit.fromAccountId.error)</span>
                 #endif
+                
+                </div>
+                    
             </section>
             
             <section>
@@ -38,6 +51,12 @@
                 <span class="error">#(edit.comment.error)</span>
                 #endif
             </section>
+            
+            <label for="start">Start date:</label>
+
+            <input type="date" id="start" name="trip-start"
+                   value="2018-07-22"
+                   min="2018-01-01" max="2018-12-31">
             
             <section>
                 <input type="submit" class="submit" value="Save">

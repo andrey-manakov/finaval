@@ -6,13 +6,14 @@ final class FinanceTransactionEditForm: Form {
 
     struct Input: Decodable {
         var id: String
-        var name: String
+        var amount: String
         var fromAccountId: String
         var toAccountId: String
-
+        var comment: String
     }
 
     var id: String? = nil
+    var amount = BasicFormField()
     var comment = BasicFormField()
     var fromAccountId = SelectionFormField()
     var toAccountId = SelectionFormField()
@@ -25,16 +26,20 @@ final class FinanceTransactionEditForm: Form {
         if !context.id.isEmpty {
             self.id = context.id
         }
-
-        self.comment.value = context.name
+        self.amount.value = "\(context.amount)"
         self.fromAccountId.value = context.fromAccountId
         self.toAccountId.value = context.toAccountId
+        self.comment.value = context.comment
     }
     
     func write(to model: Model) {
         model.comment = self.comment.value
         model.$fromAccount.id = UUID(uuidString: self.fromAccountId.value)!
         model.$toAccount.id = UUID(uuidString: self.toAccountId.value)!
+        guard let amount = Int(self.amount.value) else {
+            fatalError("Non Int value in amount")
+        }
+        model.amount = amount
     }
     
     func read(from model: Model)  {
@@ -50,9 +55,12 @@ final class FinanceTransactionEditForm: Form {
 //            self.comment.error = "Comment is required"
 //            valid = false
 //        }
+//        print("LOG validate int  amount in transaction from \(Int(self.amount.value))")
+        if Int(self.amount.value) == nil {
+            self.amount.error = "Amount is invalid"
+            valid = false
+        }
         
-        // FIXME: add validation fro toAccountId
-        print("LOG \(self.fromAccountId.value)")
         let fromAccountIdUuid = UUID(uuidString: self.fromAccountId.value)
         let fromAccountIdValid: EventLoopFuture<Bool> = FinanceAccountModel.find(fromAccountIdUuid, on: req.db)
             .map { model in

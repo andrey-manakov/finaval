@@ -9,6 +9,10 @@ public func configure(_ app: Application) throws {
 
 //    app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
     app.databases.use(.sqlite(), as: .sqlite)
+    
+    // enable access in local network
+//    let serverConfig = NIOServerConfig.default(hostname: "0.0.0.0")
+//    services.register(serverConfig)
 
     // register routes
     try routes(app)

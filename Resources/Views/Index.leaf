@@ -12,10 +12,6 @@
     </head>
     <body>
         <header>
-            <a href="/" id="logo">
-                <img src="/images/logo.png">
-                <h1>myPage - admin</h1>
-            </a>
 
             <nav id="navigation">
                 <a href="/" target="_blank">Home</a> &middot;

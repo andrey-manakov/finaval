@@ -1,12 +1,12 @@
 import ViewKit
 
-extension AccountModel: ViewContextRepresentable {
+extension FinanceAccountModel: ViewContextRepresentable {
 
     struct ViewContext: Encodable {
         var id: String
         var name: String
 
-        init(model: AccountModel) {
+        init(model: FinanceAccountModel) {
             self.id = model.id!.uuidString
             self.name = model.name
         }
@@ -15,7 +15,7 @@ extension AccountModel: ViewContextRepresentable {
     var viewContext: ViewContext { .init(model: self) }
 }
 
-extension AccountModel: FormFieldOptionRepresentable {
+extension FinanceAccountModel: FormFieldOptionRepresentable {
     var formFieldOption: FormFieldOption {
         .init(key: self.id!.uuidString, label: self.name)
     }

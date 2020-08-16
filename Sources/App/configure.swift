@@ -21,7 +21,7 @@ public func configure(_ app: Application) throws {
     }
     
     let modules: [ViperModule] = [
-        AccountModule(),
+        FinanceModule(),
     ]
 
     try app.viper.use(modules)
@@ -35,8 +35,8 @@ protocol ViperAdminViewController: AdminViewController where Model: ViperModel  
 
 extension `ViperAdminViewController` {
 
-    var listView: String { "\(Module.name.capitalized)/Admin/\(Model.name.capitalized)/List" }
-    var editView: String { "\(Module.name.capitalized)/Admin/\(Model.name.capitalized)/Edit" }
+    var listView: String { "\(Module.name.capitalized)/\(Model.name.capitalized)/List" }
+    var editView: String { "\(Module.name.capitalized)/\(Model.name.capitalized)/Edit" }
 }
 
 extension Fluent.Model where IDValue == UUID {

@@ -1,18 +1,12 @@
-//
-//  AccountModel.swift
-//  Account
-//
-//  Created by swift-template on 15.08.2020.
-//
 
 import Vapor
 import Fluent
 import ViperKit
 
-final class AccountModel: ViperModel {
-    typealias Module = AccountModule
+final class FinanceTransactionModel: ViperModel {
+    typealias Module = FinanceModule
 
-    static let name = "accounts"
+    static let name = "transactions"
 
     struct FieldKeys {
         static var name: FieldKey { "name" }
@@ -25,7 +19,7 @@ final class AccountModel: ViperModel {
 
     init() { }
 
-    init(id: AccountModel.IDValue? = nil,
+    init(id: FinanceTransactionModel.IDValue? = nil,
          name: String)
     {
         self.id = id

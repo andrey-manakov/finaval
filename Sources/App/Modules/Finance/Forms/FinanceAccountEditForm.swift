@@ -1,8 +1,8 @@
 import Vapor
 import ViewKit
 
-final class AccountEditForm: Form {
-    typealias Model = AccountModel
+final class FinanceAccountEditForm: Form {
+    typealias Model = FinanceAccountModel
 
     struct Input: Decodable {
         var id: String

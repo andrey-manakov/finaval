@@ -1,7 +1,7 @@
 #extend("Index"):
     #export("body"):
         <div class="wrapper">
-            <h2>Accounts</h2>
+            <h2>1Accounts</h2>
             <a href="/accounts/new">Create</a>
         </div>
 

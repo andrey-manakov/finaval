@@ -2,11 +2,11 @@ import Vapor
 import Fluent
 import ViewKit
 
-struct AccountAdminController: ViperAdminViewController {
+struct FinanceTransactionController: ViperAdminViewController {
 
-    typealias Module = AccountModule
-    typealias EditForm = AccountEditForm
-    typealias Model = AccountModel
+    typealias Module = FinanceModule
+    typealias EditForm = FinanceTransactionEditForm
+    typealias Model = FinanceTransactionModel
     
     func afterCreate(req: Request, form: EditForm, model: Model) -> EventLoopFuture<Response> {
         let response = req.redirect(to: "/\(Model.name)/")
@@ -16,7 +16,6 @@ struct AccountAdminController: ViperAdminViewController {
     func afterUpdate(req: Request, form: EditForm, model: Model) -> EventLoopFuture<Response> {
         let response = req.redirect(to: "/\(Model.name)/")
         return req.eventLoop.makeSucceededFuture(response)
-//        self.render(req: req, form: form).encodeResponse(for: req)
     }
 
 }

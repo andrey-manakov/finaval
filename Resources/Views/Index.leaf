@@ -20,7 +20,8 @@
             <nav id="navigation">
                 <a href="/" target="_blank">Home</a> &middot;
                 <a href="/accounts">Accounts</a> &middot;
-                <a href="/logout">Logout</  a>
+                <a href="/transactions">Transactions</a> &middot;
+                <a href="/logout">Logout</a>
             </nav>
         </header>
 
@@ -33,3 +34,4 @@
         <script src="/javascript/admin.js"></script>
     </body>
 </html>
+

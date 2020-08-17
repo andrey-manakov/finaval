@@ -1,0 +1,66 @@
+#extend("Index"):
+    #export("body"):
+        <div class="wrapper">
+            <h2><a href="/transactions">Accounts</a> / #if(edit.id != nil):Edit#else:Create#endif</h2>
+        </div>
+
+        <form id="transaction-edit-form" class="wrapper" method="post" action="/transactions/#if(edit.id != nil):#(edit.id)#else:new#endif" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="#(edit.id)">
+            
+            <section>
+                <label for="Amount">Amount</label>
+                <input id="amount" type="text" name="amount" value="#(edit.amount.value)" class="field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                #if(edit.amount.error != nil):
+                <span class="error">#(edit.amount.error)</span>
+                #endif
+            </section>
+            
+            <section>
+                <div class="form-group">
+                    
+                <label for="fromAccountId">From</label>
+                <select name="fromAccountId">
+                #for(item in edit.fromAccountId.options):
+                    <option #if(item.key == edit.fromAccountId.value): selected="selected" #endif value="#(item.key)">#(item.label)</option>
+                #endfor
+                </select>
+                #if(edit.fromAccountId.error != nil):
+                <span class="error">#(edit.fromAccountId.error)</span>
+                #endif
+                
+                </div>
+                    
+            </section>
+            
+            <section>
+                <label for="toAccountId">To</label>
+                <select name="toAccountId">
+                #for(item in edit.toAccountId.options):
+                    <option #if(item.key == edit.toAccountId.value): selected="selected" #endif value="#(item.key)">#(item.label)</option>
+                #endfor
+                </select>
+                #if(edit.toAccountId.error != nil):
+                <span class="error">#(edit.toAccountId.error)</span>
+                #endif
+            </section>
+
+            <section>
+                <label for="Comment">Comment</label>
+                <input id="comment" type="text" name="comment" value="#(edit.comment.value)" class="field">
+                #if(edit.comment.error != nil):
+                <span class="error">#(edit.comment.error)</span>
+                #endif
+            </section>
+            
+            <label for="start">Start date:</label>
+
+            <input type="date" id="start" name="trip-start"
+                   value="2018-07-22"
+                   min="2018-01-01" max="2018-12-31">
+            
+            <section>
+                <input type="submit" class="submit" value="Save">
+            </section>
+        </form>
+    #endexport
+#endextend

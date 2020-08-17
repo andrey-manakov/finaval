@@ -25,7 +25,7 @@ public func configure(_ app: Application) throws {
     }
     
     let modules: [ViperModule] = [
-        FinanceModule(),
+//        FinanceModule(),
     ]
 
     try app.viper.use(modules)

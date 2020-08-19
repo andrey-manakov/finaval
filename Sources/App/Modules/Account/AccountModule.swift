@@ -18,7 +18,7 @@ final class AccountModule: ViperModule {
     var migrations: [Migration] {
         [
             AccountMigration_v1_0_0(),
-//            FinanceMigrationSeed(),
+            AccountMigrationSeed(),
         ]
     }
 }

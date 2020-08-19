@@ -2,14 +2,14 @@ import Vapor
 import Fluent
 import ViewKit
 
-struct FinanceTransactionController: ViperAdminViewController {
+struct TransactionController: ViperAdminViewController {
 
-    typealias Module = FinanceModule
-    typealias EditForm = FinanceTransactionEditForm
-    typealias Model = FinanceTransactionModel
+    typealias Module = TransactionModule
+    typealias EditForm = TransactionEditForm
+    typealias Model = TransactionModel
     
-    func beforeRender(req: Request, form: FinanceTransactionEditForm) -> EventLoopFuture<Void> {
-        FinanceAccountModel.query(on: req.db).all()
+    func beforeRender(req: Request, form: TransactionEditForm) -> EventLoopFuture<Void> {
+        AccountModel.query(on: req.db).all()
         .mapEach(\.formFieldOption)
         .map {
             form.fromAccountId.options = $0
@@ -30,13 +30,13 @@ struct FinanceTransactionController: ViperAdminViewController {
     func listView(req: Request) throws -> EventLoopFuture<View> {
         
         struct TransactionWithAccounts: Encodable {
-            var transaction: FinanceTransactionModel.ViewContext
-            var fromAccount: FinanceAccountModel.ViewContext
-            var toAccount: FinanceAccountModel.ViewContext
+            var transaction: TransactionModel.ViewContext
+            var fromAccount: AccountModel.ViewContext
+            var toAccount: AccountModel.ViewContext
         }
 
 
-        return FinanceTransactionModel.query(on: req.db)
+        return TransactionModel.query(on: req.db)
 //            .sort(\.$date, .descending)
             .with(\.$fromAccount)
             .with(\.$toAccount)

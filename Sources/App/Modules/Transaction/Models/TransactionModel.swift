@@ -3,8 +3,8 @@ import Vapor
 import Fluent
 import ViperKit
 
-final class FinanceTransactionModel: ViperModel {
-    typealias Module = FinanceModule
+final class TransactionModel: ViperModel {
+    typealias Module = TransactionModule
     
     static let name = "transactions"
     
@@ -19,13 +19,13 @@ final class FinanceTransactionModel: ViperModel {
     
     @ID() var id: UUID?
     @Field(key: FieldKeys.amount) var amount: Int
-    @Parent(key: FieldKeys.fromAccountId) var fromAccount: FinanceAccountModel
-    @Parent(key: FieldKeys.toAccountId) var toAccount: FinanceAccountModel
+    @Parent(key: FieldKeys.fromAccountId) var fromAccount: AccountModel
+    @Parent(key: FieldKeys.toAccountId) var toAccount: AccountModel
     @Field(key: FieldKeys.comment) var comment: String
     
     init() { }
     
-    init(id: FinanceTransactionModel.IDValue? = nil,
+    init(id: TransactionModel.IDValue? = nil,
          amount: Int,
          fromAccountId: UUID,
          toAccountId: UUID,

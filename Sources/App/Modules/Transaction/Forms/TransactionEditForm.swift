@@ -1,8 +1,8 @@
 import Vapor
 import ViewKit
 
-final class FinanceTransactionEditForm: Form {
-    typealias Model = FinanceTransactionModel
+final class TransactionEditForm: Form {
+    typealias Model = TransactionModel
 
     struct Input: Decodable {
         var id: String
@@ -27,6 +27,7 @@ final class FinanceTransactionEditForm: Form {
             self.id = context.id
         }
         self.amount.value = "\(context.amount)"
+        print("LOG \(context.amount)")
         self.fromAccountId.value = context.fromAccountId
         self.toAccountId.value = context.toAccountId
         self.comment.value = context.comment
@@ -44,9 +45,10 @@ final class FinanceTransactionEditForm: Form {
     
     func read(from model: Model)  {
         self.id = model.id!.uuidString
-        self.comment.value = model.comment
+        self.amount.value = "\(model.amount)"
         self.fromAccountId.value = model.$fromAccount.id.uuidString
         self.toAccountId.value = model.$toAccount.id.uuidString
+        self.comment.value = model.comment
     }
 
     func validate(req: Request) -> EventLoopFuture<Bool> {
@@ -62,7 +64,7 @@ final class FinanceTransactionEditForm: Form {
         }
         
         let fromAccountIdUuid = UUID(uuidString: self.fromAccountId.value)
-        let fromAccountIdValid: EventLoopFuture<Bool> = FinanceAccountModel.find(fromAccountIdUuid, on: req.db)
+        let fromAccountIdValid: EventLoopFuture<Bool> = AccountModel.find(fromAccountIdUuid, on: req.db)
             .map { model in
                 if model == nil {
                     self.fromAccountId.error = "Category identifier error"
@@ -73,7 +75,7 @@ final class FinanceTransactionEditForm: Form {
         }
 
         let toAccountIdUuid = UUID(uuidString: self.toAccountId.value)
-        let toAccountIdValid: EventLoopFuture<Bool> = FinanceAccountModel.find(toAccountIdUuid, on: req.db)
+        let toAccountIdValid: EventLoopFuture<Bool> = AccountModel.find(toAccountIdUuid, on: req.db)
             .map { model in
                 if model == nil {
                     self.toAccountId.error = "Category identifier error"

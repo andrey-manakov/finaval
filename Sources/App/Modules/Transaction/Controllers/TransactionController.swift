@@ -8,17 +8,25 @@ struct TransactionController: ViperAdminViewController {
     typealias EditForm = TransactionEditForm
     typealias Model = TransactionModel
     
+    var accountManager: AccountMaangerProtocol
+    
+    init(with accountManager: AccountMaangerProtocol = AccountManager()) {
+        self.accountManager = accountManager
+    }
+    
     func beforeRender(req: Request, form: TransactionEditForm) -> EventLoopFuture<Void> {
-        AccountModel.query(on: req.db).all()
-        .mapEach(\.formFieldOption)
-        .map {
-            form.fromAccountId.options = $0
-            form.toAccountId.options = $0
+        accountManager.getAccounts(req: req).map {
+            form.fromAccountId.options = $0.map { FormFieldOption(key: $0.key.uuidString, label: $0.value) }
+            print("LOG \(form.fromAccountId.options)")
+            print("LOG \(form)")
+            form.toAccountId.options = $0.map { FormFieldOption(key: $0.key.uuidString, label: $0.value) }
         }
     }
         
     func afterCreate(req: Request, form: EditForm, model: Model) -> EventLoopFuture<Response> {
         let response = req.redirect(to: "/\(Model.name)/")
+        print("\(model.viewIdentifier)")
+        print(response)
         return req.eventLoop.makeSucceededFuture(response)
     }
     
@@ -27,23 +35,43 @@ struct TransactionController: ViperAdminViewController {
         return req.eventLoop.makeSucceededFuture(response)
     }
     
-    func listView(req: Request) throws -> EventLoopFuture<View> {
-        
-        struct TransactionWithAccounts: Encodable {
-            var transaction: TransactionModel.ViewContext
-            var fromAccount: AccountModel.ViewContext
-            var toAccount: AccountModel.ViewContext
-        }
+//    func listView(req: Request) throws -> EventLoopFuture<View> {
+//        
+//        struct TransactionWithAccounts: Encodable {
+//            var transaction: TransactionModel.ViewContext
+//            var fromAccount: AccountModel.ViewContext
+//            var toAccount: AccountModel.ViewContext
+//        }
+//        
+//        
+//        return TransactionModel.query(on: req.db)
+//            //            .sort(\.$date, .descending)
+//            .with(\.$fromAccount)
+//            .with(\.$toAccount)
+//            .all()
+//            .mapEach { TransactionWithAccounts(transaction: $0.viewContext, fromAccount: $0.fromAccount.viewContext, toAccount: $0.toAccount.viewContext) }
+//            .flatMap {
+//                req.view.render(self.listView, ListContext($0))
+//        }
+//    }
 
-
-        return TransactionModel.query(on: req.db)
-//            .sort(\.$date, .descending)
-            .with(\.$fromAccount)
-            .with(\.$toAccount)
-            .all()
-            .mapEach { TransactionWithAccounts(transaction: $0.viewContext, fromAccount: $0.fromAccount.viewContext, toAccount: $0.toAccount.viewContext) }
-            .flatMap {
-                req.view.render(self.listView, ListContext($0))
-            }
-    }
+//    func listView(req: Request) throws -> EventLoopFuture<View> {
+//        
+//        struct TransactionWithAccounts: Encodable {
+//            var transaction: TransactionModel.ViewContext
+//            var fromAccount: AccountModel.ViewContext
+//            var toAccount: AccountModel.ViewContext
+//        }
+//
+//
+//        return TransactionModel.query(on: req.db)
+////            .sort(\.$date, .descending)
+//            .with(\.$fromAccount)
+//            .with(\.$toAccount)
+//            .all()
+//            .mapEach { TransactionWithAccounts(transaction: $0.viewContext, fromAccount: $0.fromAccount.viewContext, toAccount: $0.toAccount.viewContext) }
+//            .flatMap {
+//                req.view.render(self.listView, ListContext($0))
+//            }
+//    }
 }

@@ -8,16 +8,21 @@ final class TransactionEditForm: Form {
         var id: String
         var amount: String
         var fromAccountId: String
+//        var fromAccountName: String
         var toAccountId: String
+//        var toAccountName: String
         var comment: String
+        var accounts: [String]
     }
 
     var id: String? = nil
     var amount = BasicFormField()
-    var comment = BasicFormField()
     var fromAccountId = SelectionFormField()
+//    var fromAccountName = BasicFormField
     var toAccountId = SelectionFormField()
-
+//    var toAccountName = BasicFormField
+    var comment = BasicFormField()
+//    var accounts = ArrayFormField()
     
     init() {}
     
@@ -27,16 +32,18 @@ final class TransactionEditForm: Form {
             self.id = context.id
         }
         self.amount.value = "\(context.amount)"
-        print("LOG \(context.amount)")
         self.fromAccountId.value = context.fromAccountId
         self.toAccountId.value = context.toAccountId
         self.comment.value = context.comment
+//        self.accounts.values = context.accounts
     }
     
     func write(to model: Model) {
         model.comment = self.comment.value
-        model.$fromAccount.id = UUID(uuidString: self.fromAccountId.value)!
-        model.$toAccount.id = UUID(uuidString: self.toAccountId.value)!
+        model.fromAccountId = UUID(uuidString: self.fromAccountId.value)!
+//        model.fromAccountName = AccountManager().getAccounts(req: req)
+        model.toAccountId = UUID(uuidString: self.toAccountId.value)!
+//        print("LOG \(self.accounts)")
         guard let amount = Int(self.amount.value) else {
             fatalError("Non Int value in amount")
         }
@@ -46,8 +53,8 @@ final class TransactionEditForm: Form {
     func read(from model: Model)  {
         self.id = model.id!.uuidString
         self.amount.value = "\(model.amount)"
-        self.fromAccountId.value = model.$fromAccount.id.uuidString
-        self.toAccountId.value = model.$toAccount.id.uuidString
+        self.fromAccountId.value = model.fromAccountId.uuidString
+        self.toAccountId.value = model.toAccountId.uuidString
         self.comment.value = model.comment
     }
 

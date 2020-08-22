@@ -16,7 +16,9 @@ struct TransactionMigration_v1_0_0: Migration {
                 .id()
                 .field(TransactionModel.FieldKeys.amount, .int, .required)
                 .field(TransactionModel.FieldKeys.fromAccountId, .uuid, .required)
+                .field(TransactionModel.FieldKeys.fromAccountName, .string)
                 .field(TransactionModel.FieldKeys.toAccountId, .uuid, .required)
+                .field(TransactionModel.FieldKeys.toAccountName, .string)
                 .field(TransactionModel.FieldKeys.comment, .string)
                 .foreignKey(TransactionModel.FieldKeys.fromAccountId,
                             references: AccountModel.schema,
@@ -28,7 +30,6 @@ struct TransactionMigration_v1_0_0: Migration {
                             .id,
                             onDelete: .cascade,
                             onUpdate: .cascade)
-                .unique(on: TransactionModel.FieldKeys.comment)
                 .create(),
         ])
     }

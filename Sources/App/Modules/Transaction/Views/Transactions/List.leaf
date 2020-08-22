@@ -15,15 +15,15 @@
             <tbody>
             #for(item in list):
                 <tr>
-                    <td>#(item.fromAccount.name) -- #(item.transaction.amount) --> #(item.toAccount.name)</td>
+                    <td>#(item.fromAccountName) -- #(item.amount) --> #(item.toAccountName)</td>
                     <td class="actions">
-                        <a href="/transactions/#(item.transaction.id)">Edit</a> &middot;
-                        <a id="#(item.transaction.id)" href="#" onClick="confirmDelete('/transactions/', this.id);">Delete</a>
+                        <a href="/transactions/#(item.id)">Edit</a> &middot;
+                        <a id="#(item.id)" href="#" onClick="confirmDelete('/transactions/', this.id);">Delete</a>
                     </td>
                 </tr>
             #endfor
             </tbody>
         </table>
-<!--#(list)-->
+#(list)
     #endexport
 #endextend

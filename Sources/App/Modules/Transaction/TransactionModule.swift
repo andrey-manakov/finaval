@@ -14,6 +14,7 @@ final class TransactionModule: ViperModule {
     static var name: String = "transaction"
 
     var router: ViperRouter? { TransactionRouter() }
+//    var interactor: 
 
     var migrations: [Migration] {
         [

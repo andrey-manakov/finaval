@@ -8,7 +8,7 @@ struct TransactionController: ViperAdminViewController {
     typealias EditForm = TransactionEditForm
     typealias Model = TransactionModel
     
-    var accountManager: AccountMaangerProtocol
+    var accountManager: AccountManagerProtocol
     
     init(with accountManager: AccountMaangerProtocol = AccountManager()) {
         self.accountManager = accountManager
@@ -17,16 +17,12 @@ struct TransactionController: ViperAdminViewController {
     func beforeRender(req: Request, form: TransactionEditForm) -> EventLoopFuture<Void> {
         accountManager.getAccounts(req: req).map {
             form.fromAccountId.options = $0.map { FormFieldOption(key: $0.key.uuidString, label: $0.value) }
-            print("LOG \(form.fromAccountId.options)")
-            print("LOG \(form)")
             form.toAccountId.options = $0.map { FormFieldOption(key: $0.key.uuidString, label: $0.value) }
         }
     }
         
     func afterCreate(req: Request, form: EditForm, model: Model) -> EventLoopFuture<Response> {
         let response = req.redirect(to: "/\(Model.name)/")
-        print("\(model.viewIdentifier)")
-        print(response)
         return req.eventLoop.makeSucceededFuture(response)
     }
     

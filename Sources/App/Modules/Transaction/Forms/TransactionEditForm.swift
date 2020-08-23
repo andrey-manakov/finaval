@@ -18,11 +18,14 @@ final class TransactionEditForm: Form {
     var id: String? = nil
     var amount = BasicFormField()
     var fromAccountId = SelectionFormField()
-//    var fromAccountName = BasicFormField
+    var fromAccountName: String?
     var toAccountId = SelectionFormField()
-//    var toAccountName = BasicFormField
+    var toAccountName: String?
     var comment = BasicFormField()
-//    var accounts = ArrayFormField()
+    
+    deinit {
+        print("LOG deinit \(self)")
+    }
     
     init() {}
     
@@ -41,9 +44,11 @@ final class TransactionEditForm: Form {
     func write(to model: Model) {
         model.comment = self.comment.value
         model.fromAccountId = UUID(uuidString: self.fromAccountId.value)!
-//        model.fromAccountName = AccountManager().getAccounts(req: req)
+        model.fromAccountName = self.fromAccountName ?? ""
         model.toAccountId = UUID(uuidString: self.toAccountId.value)!
-//        print("LOG \(self.accounts)")
+        model.toAccountName = self.toAccountName ?? ""
+        print("LOG write fromAccountName \(fromAccountName)")
+        print("LOG write toAccountName \(toAccountName)")
         guard let amount = Int(self.amount.value) else {
             fatalError("Non Int value in amount")
         }
@@ -71,29 +76,40 @@ final class TransactionEditForm: Form {
         }
         
         let fromAccountIdUuid = UUID(uuidString: self.fromAccountId.value)
-        let fromAccountIdValid: EventLoopFuture<Bool> = AccountModel.find(fromAccountIdUuid, on: req.db)
-            .map { model in
-                if model == nil {
-                    self.fromAccountId.error = "Category identifier error"
-                    valid = false
-                    return false
-                }
-                return true //valid
-        }
-
+        let fromAccountName: EventLoopFuture<String?>  = AccountModel.find(fromAccountIdUuid, on: req.db).map { $0?.name }
         let toAccountIdUuid = UUID(uuidString: self.toAccountId.value)
-        let toAccountIdValid: EventLoopFuture<Bool> = AccountModel.find(toAccountIdUuid, on: req.db)
-            .map { model in
-                if model == nil {
-                    self.toAccountId.error = "Category identifier error"
-                    valid = false
-                    return false
-                }
-                return true //valid
-        }
+        let toAccountName: EventLoopFuture<String?>  = AccountModel.find(toAccountIdUuid, on: req.db).map { $0?.name }
+        print("LOG fromAccountIdUuid \(fromAccountIdUuid)")
+        print("LOG toAccountIdUuid \(toAccountIdUuid)")
+//        let fromAccountIdValid: EventLoopFuture<Bool> = AccountModel.find(fromAccountIdUuid, on: req.db)
+//            .map { model in
+//                guard let model = model else {
+//                    self.fromAccountId.error = "Category identifier error"
+//                    valid = false
+//                    return false
+//                }
+//                self.fromAccountName = model.name
+//                return true
+//        }
 
-        return fromAccountIdValid.and(toAccountIdValid).map { fromAccountIdValid, toAccountIdValid in
-            valid && toAccountIdValid && fromAccountIdValid
+//        let toAccountIdUuid = UUID(uuidString: self.toAccountId.value)
+//        let toAccountIdValid: EventLoopFuture<Bool> = AccountModel.find(toAccountIdUuid, on: req.db)
+//            .map { model in
+//                if model == nil {
+//                    self.toAccountId.error = "Category identifier error"
+//                    valid = false
+//                    return false
+//                }
+//
+//                return true //valid
+//        }
+//        FIXME: unowned self
+        return fromAccountName.and(toAccountName).map { fromAccountName, toAccountName in
+            print("LOG fromAccountName \(fromAccountName)")
+            print("LOG toAccountName \(toAccountName)")
+            self.fromAccountName = fromAccountName
+            self.toAccountName = toAccountName
+            return valid && fromAccountName != nil && toAccountName != nil
         }
         
         

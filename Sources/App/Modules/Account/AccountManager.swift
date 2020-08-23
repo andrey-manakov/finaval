@@ -3,12 +3,12 @@ import Vapor
 typealias AccountId = UUID
 typealias AccountName = String
 
-protocol AccountMaangerProtocol {
+protocol AccountManagerProtocol {
     func getAccounts(req: Request) -> EventLoopFuture<[AccountId: AccountName]>
     func getAccountName(id: UUID, req: Request) -> EventLoopFuture<String?>
 }
 
-struct AccountManager: AccountMaangerProtocol {
+struct AccountManager: AccountManagerProtocol {
     func getAccounts(req: Request) -> EventLoopFuture<[AccountId: AccountName]> {
         AccountModel.query(on: req.db).all().map { Dictionary(uniqueKeysWithValues: $0.map { ($0.id!, $0.name) }) }
     }
